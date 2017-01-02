@@ -1,10 +1,11 @@
-const {Config} = require('../')
 
-describe('Unit::deployable-config', function(){
+describe('Unit::deployable-config::module', function(){
 
-  describe('deployable-config does something', function(){
+  describe('deployable-config should load', function(){
   
-    it('should do something with module', function(){
+    let {Config} = require('../')
+
+    it('should do load module from package.json entry point', function(){
       expect( Config ).to.be.ok
     })
 
