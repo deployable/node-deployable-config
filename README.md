@@ -4,9 +4,9 @@ Config manager
 
 ### Install
  
-   npm install deployable-config --save
+    npm install deployable-config --save
 
-   yarn add deployable-config
+  :  yarn add deployable-config
 
 ### Usage
 
