@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.es6"],"names":["something"],"mappings":";;;;;;AAAA;;IAAYA,S;;;;kBAEGA,S","file":"index.js","sourcesContent":["import * as something from './something'\n\nexport default something\n\n"]}

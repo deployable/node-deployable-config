@@ -1,0 +1,4 @@
+--require ./test/fixture/mocha-setup.js
+--compilers js:babel-register
+--ui bdd
+
