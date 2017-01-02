@@ -1,11 +1,11 @@
-import deployable-config from '../'
+const {Config} = require('../')
 
 describe('Unit::deployable-config', function(){
 
   describe('deployable-config does something', function(){
   
     it('should do something with module', function(){
-      expect( module.something ).to.equal( 1 )
+      expect( Config ).to.be.ok
     })
 
   })

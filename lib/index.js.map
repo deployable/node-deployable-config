@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/index.es6"],"names":["something"],"mappings":";;;;;;AAAA;;IAAYA,S;;;;kBAEGA,S","file":"index.js","sourcesContent":["import * as something from './something'\n\nexport default something\n\n"]}
+{"version":3,"sources":["../src/index.es6"],"names":["Config"],"mappings":";;;;;;AAAA;;IAAYA,M;;;;kBAEGA,M","file":"index.js","sourcesContent":["import * as Config from './config'\n\nexport default Config\n\n"]}
