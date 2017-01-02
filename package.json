@@ -5,7 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha",
-    "test:debug": "DEBUG='*' mocha debug"
+    "test:debug": "DEBUG='*' mocha debug",
+    "test:coverage": "istanbul cover _mocha",
+    "npm:publish": "set -uex; npm run test:coverage; [ -z \"$(git status --porcelain)\" ]; npm version patch; git push; git push --tags; npm publish",
+    "npm:testing": "set -uex; npm test; npm version prerelease; git push; npm publish --tag testing; git push --tags"
   },
   "repository": {
     "type": "git",
