@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deployable/deployable-config.git"
+    "url": "git+https://github.com/deployable/node-deployable-config.git"
   },
   "keywords": [
     "deployable",
@@ -21,9 +21,9 @@
   "author": "Matt Hoyle <code at deployable.co>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deployable/deployable-config/issues"
+    "url": "https://github.com/deployable/node-deployable-config/issues"
   },
-  "homepage": "https://github.com/deployable/deployable-config#readme",
+  "homepage": "https://github.com/deployable/node-deployable-config#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
