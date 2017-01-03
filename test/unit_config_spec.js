@@ -5,9 +5,11 @@ const Config = require('../lib/config')
 
 describe('Unit::Config', function () {
 
+
   describe('Error', function () {
 
     let err = null
+
     beforeEach(function(){
       err = new Config.ConfigError('some error')
     })
@@ -25,6 +27,7 @@ describe('Unit::Config', function () {
     })
 
   })  
+
 
   describe('Config class statics', function(){
 
@@ -57,7 +60,28 @@ describe('Unit::Config', function () {
       Config.singleton
     })
 
+
+    describe('fresh class instance', function(){
+ 
+      beforeEach(function(){
+        Config.clearInstances()
+      })
+
+      it('populates instance via get', function(){
+        Config.getInstance()
+        expect( Config._instances ).to.eql( {} )
+      })
+
+      xit('populates instance via singleton', function(){
+        fn = () => Config.singleton
+        expect( fn ).to.throw
+        expect( Config._instances ).to.eql( {} )
+      })
+
+    })
+
   })
+
 
   describe('Config class instance', function(){
 
@@ -65,7 +89,7 @@ describe('Unit::Config', function () {
     let cfg_path = path.join(__dirname, 'fixture')
 
     before(function(){
-      cfg = new Config({path: cfg_path})
+      cfg = new Config('fixture', {path: cfg_path})
     })
 
     it('should create an instance', function(){
@@ -102,15 +126,42 @@ describe('Unit::Config', function () {
       expect( cfg.set('nested_key.three', 3) ).to.be.ok
       expect( cfg.get('nested_key.three') ).to.equal( 3 )
     })
- 
+
+    it('should get the config blob', function(){
+      expect( cfg.config ).to.be.ok
+      expect( cfg.config ).to.be.an('object')
+    })
+   
     describe('environment', function(){
 
-      it('should not be a prod like env', function(){
+      let original_env = null
+
+      before(function(){
+        original_env = process.env.NODE_ENV
+      })
+ 
+      after(function(){
+        process.env.NODE_ENV = original_env
+      })
+
+      it('production should be a prod like env', function(){
+        process.env.NODE_ENV = 'production'
+        expect( cfg.productionLikeEnv() ).to.be.true
+      })
+
+      it('development should not be a prod like env', function(){
+        process.env.NODE_ENV = 'development'
         expect( cfg.productionLikeEnv() ).to.be.false
       })
 
-      it('should be a test env', function(){
-        expect( cfg.testEnv() ).to.be.ok
+      it('test should be a test env', function(){
+        process.env.NODE_ENV = 'test'
+        expect( cfg.testEnv() ).to.be.true
+      })
+     
+      it('dev should not be a test env', function(){
+        process.env.NODE_ENV = 'development'
+        expect( cfg.testEnv() ).to.be.false
       })
      
       it('should return the env test', function(){
@@ -119,7 +170,18 @@ describe('Unit::Config', function () {
 
     })
 
+
+    describe('Bad Config file', function(){
+
+      it('throws', function(){
+        fn = () => new Config('throws', { path: cfg_path, label: 'bad' })
+        expect( fn ).to.throw(/Can't load config/)
+      })
+
+    })
+
   })
 
+  
 
 })

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "test:debug": "DEBUG='*' mocha debug",
-    "test:coverage": "istanbul cover _mocha",
+    "test:coverage": "istanbul cover _mocha; istanbul check-coverage",
     "test:docker:6": "docker build -f docker/Dockerfile.test.6 -t deployable/node-config-test:6 . && docker run --rm deployable/node-config-test:6",
     "test:docker:7": "docker build -f docker/Dockerfile.test.7 -t deployable/node-config-test:7 . && docker run --rm deployable/node-config-test:7",
     "npm:publish": "set -uex; npm run test:coverage; [ -z \"$(git status --porcelain)\" ]; npm version patch; git push; git push --tags; npm publish",
