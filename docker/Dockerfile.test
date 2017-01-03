@@ -6,3 +6,4 @@ run npm install
 copy . /app
 
 cmd ["/app/node_modules/.bin/mocha"]
+
