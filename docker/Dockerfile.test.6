@@ -1,0 +1,8 @@
+from mhart/alpine-node:6
+
+workdir /app
+copy package.json /app/package.json
+run npm install 
+copy . /app
+
+cmd ["/app/node_modules/.bin/mocha"]
