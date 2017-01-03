@@ -89,6 +89,36 @@ describe('Unit::Config', function () {
       expect( cfg.path ).to.equal( path.resolve(__dirname, '..', 'config') )
     })
 
+    it('should have a test key', function(){
+      expect( cfg.get('key') ).to.equal( 'value' )
+    })
+    
+    it('should have a nested key', function(){
+      expect( cfg.get('nested_key.one') ).to.equal( 1 )
+      expect( cfg.get('nested_key.two') ).to.equal( 2 )
+    })
+
+    it('should set a key `nested_key.three`', function(){
+      expect( cfg.set('nested_key.three', 3) ).to.be.ok
+      expect( cfg.get('nested_key.three') ).to.equal( 3 )
+    })
+ 
+    describe('environment', function(){
+
+      it('should not be a prod like env', function(){
+        expect( cfg.productionLikeEnv() ).to.be.false
+      })
+
+      it('should be a test env', function(){
+        expect( cfg.testEnv() ).to.be.ok
+      })
+     
+      it('should return the env test', function(){
+        expect( cfg.env() ).to.equal( process.env.NODE_ENV )
+      })
+
+    })
+
   })
 
 
