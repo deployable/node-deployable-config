@@ -26,8 +26,40 @@ describe('Unit::Config', function () {
 
   })  
 
+  describe('Config class statics', function(){
 
-  describe('Config class', function(){
+    let path_fixture = path.join(__dirname, 'fixture')
+
+    it('should create a new instance', function(){
+      Config.newInstance('default', { path: path_fixture })
+    })
+
+    it('should create an instance', function(){
+      Config.createInstance('createInstance', { path: path_fixture })
+    })
+
+    it('should note create an existing instance', function(){
+      let fn = () => Config.createInstance('createInstance', { path: path_fixture })
+      expect( fn ).to.throw('Config already exists')
+    })
+
+    it('should fetch and create a new instance', function(){
+      Config.fetchInstance('notdefault', { path: path_fixture })
+    })
+
+    it('should fetch an existing instance', function(){
+      let config = Config.fetchInstance('notdefault', { path: 'bad_path' })
+      expect( config ).to.have.property('path')
+      expect( config.path ).to.equal( path_fixture )
+    })
+
+    it('should get the singleton `default` instance', function(){
+      Config.singleton
+    })
+
+  })
+
+  describe('Config class instance', function(){
 
     let cfg = null
     let cfg_path = path.join(__dirname, 'fixture')
