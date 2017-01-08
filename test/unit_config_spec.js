@@ -185,6 +185,24 @@ describe('Unit::Config', function () {
 
     })
 
+    
+    describe('Default Config file', function(){
+
+      let path_fixture = path.join(__dirname, 'fixture', 'withdefault')
+
+      it('loads the default config', function(){
+        let cfg = new Config('withdefault', { path: path_fixture })
+        expect( cfg.get('default') ).to.be.true
+      })
+  
+      it('merges the default and test config', function(){
+        let cfg = new Config('withdefault', { path: path_fixture })
+        expect( cfg.get('default') ).to.be.true
+        expect( cfg.get('test') ).to.be.true
+      })
+ 
+    })
+
 
     describe('Bad Config file', function(){
 

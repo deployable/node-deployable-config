@@ -34,7 +34,7 @@
   "dependencies": {
     "bluebird": "^3.0.1",
     "debug": "^2",
-    "deployable-errors": "^0.5.3",
+    "deployable-errors": "^0.6.0",
     "js-yaml": "^3.7.0",
     "lodash": "^4.17.4"
   },
