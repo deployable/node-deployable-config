@@ -186,19 +186,45 @@ describe('Unit::Config', function () {
     })
 
     
-    describe('Default Config file', function(){
+    describe('Default Config files', function(){
 
-      let path_fixture = path.join(__dirname, 'fixture', 'withdefault')
+      describe('with a default file', function(){
 
-      it('loads the default config', function(){
-        let cfg = new Config('withdefault', { path: path_fixture })
-        expect( cfg.get('default') ).to.be.true
-      })
+        let path_fixture = path.join(__dirname, 'fixture', 'withdefault')
+
+        it('loads the default config', function(){
+          let cfg = new Config('withdefault', { path: path_fixture })
+          expect( cfg.get('default') ).to.be.true
+        })
   
-      it('merges the default and test config', function(){
-        let cfg = new Config('withdefault', { path: path_fixture })
-        expect( cfg.get('default') ).to.be.true
-        expect( cfg.get('test') ).to.be.true
+        it('merges the default and test config', function(){
+          let cfg = new Config('withdefault', { path: path_fixture })
+          expect( cfg.get('default') ).to.be.true
+          expect( cfg.get('test') ).to.be.true
+        })
+  
+      })
+
+      describe('without a default file', function(){
+
+        let path_fixture = path.join(__dirname, 'fixture', 'withoutdefault')
+
+        it('should load', function(){
+          let cfg = new Config('withdefault', { path: path_fixture })
+          expect( cfg.get('test') ).to.be.true
+        })
+ 
+      })
+
+      describe('without any files', function(){
+
+        let path_fixture = path.join(__dirname, 'fixture', 'withnothing')
+   
+        it('should throw', function(){
+          fn = () => new Config('withnothing', { path: path_fixture })
+          expect( fn ).to.throw( ConfigError, /No files were loaded from/ )
+        })
+ 
       })
  
     })
@@ -211,6 +237,14 @@ describe('Unit::Config', function () {
         expect( fn ).to.throw(/Can't load config/)
       })
 
+    })
+
+    describe('Package info', function(){
+      it('should load package from constructor', function(){
+        let path_fixture = path.join(__dirname, 'fixture')
+        let cfg = new Config('', { package: { test: true }, path: path_fixture })
+        expect( cfg.get('package.test') ).to.be.true
+      })
     })
 
   })
