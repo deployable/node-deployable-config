@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.es6"],"names":["Config"],"mappings":";;;;;;AAAA;;IAAYA,M;;;;kBAEGA,M","file":"index.js","sourcesContent":["import * as Config from './config'\n\nexport default Config\n\n"]}
