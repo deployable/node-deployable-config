@@ -1,6 +1,8 @@
 const debug = require('debug')('dply:test:unit:config')
 const path = require('path')
 const Config = require('../lib/config')
+const ConfigError = require('../lib/config').ConfigError
+const ConfigKeyError = require('../lib/config').ConfigKeyError
 
 
 describe('Unit::Config', function () {
@@ -113,8 +115,21 @@ describe('Unit::Config', function () {
       expect( cfg.path ).to.equal( path.resolve(__dirname, '..', 'config') )
     })
 
-    it('should have a test key', function(){
+    it('should get the test key', function(){
       expect( cfg.get('key') ).to.equal( 'value' )
+    })
+    
+    it('should fail to get an unknown key', function(){
+      fn = () => cfg.get('key-no')
+      expect( fn ).to.throw( ConfigKeyError, /Unknown config key/ )
+    })
+    
+    it('should fetch the test key', function(){
+      expect( cfg.fetch('key') ).to.equal( 'value' )
+    })
+    
+    it('should fetch an unkown ', function(){
+      expect( cfg.fetch('key-no') ).to.be.undefined
     })
     
     it('should have a nested key', function(){
