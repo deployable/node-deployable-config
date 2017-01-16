@@ -10,7 +10,7 @@ describe('Unit::State', function () {
 
     let state = null
 
-    before(function(){
+    beforeEach(function(){
       state = new State()
     })
 
@@ -26,7 +26,11 @@ describe('Unit::State', function () {
       state.set('a', 'b')
       expect( state.get('a') ).to.equal('b')
     })
-
+ 
+    it('should get a state', function(){
+      state.set('when', 'total')
+      expect( state.state ).to.eql({ when: 'total' })
+    })
   })
 
   
