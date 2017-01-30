@@ -1,6 +1,9 @@
 # [deployable-config](https://github.com/deployable/deployable-config)
 
-Config manager
+YAML based app config manager - v0.8.0
+
+Loads the current `NODE_ENV` config file from `./config/{{ env }}.yml`, defaults to production.
+
 
 ### Install
  
