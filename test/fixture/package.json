@@ -1,0 +1,7 @@
+{ 
+  "version": "0.1.0",
+  "description": "yee",
+  "dependencies": {
+    "bluebird": "^3.0.0"
+  }
+}

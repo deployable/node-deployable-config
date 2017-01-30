@@ -241,8 +241,10 @@ describe('Unit::Config', function () {
     describe('Package info', function(){
       it('should load package from constructor', function(){
         let path_fixture = path.join(__dirname, 'fixture')
-        let cfg = new Config('', { package: { test: true }, path: path_fixture })
-        expect( cfg.get('package.test') ).to.be.true
+        let cfg = new Config('', { package: true , path: path_fixture })
+        expect( cfg.get('app.version') ).to.equal( '0.1.0' )
+        expect( cfg.get('app.description') ).to.equal( 'yee' )
+        expect( cfg.get('package.dependencies') ).to.be.ok
       })
     })
 
