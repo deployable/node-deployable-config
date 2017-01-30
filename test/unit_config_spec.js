@@ -1,8 +1,7 @@
+/* global expect */
 const debug = require('debug')('dply:test:unit:config')
 const path = require('path')
-const Config = require('../lib/config')
-const ConfigError = require('../lib/config').ConfigError
-const ConfigKeyError = require('../lib/config').ConfigKeyError
+const { Config, ConfigError, ConfigKeyError } = require('../lib/config')
 
 
 describe('Unit::Config', function () {
@@ -13,11 +12,11 @@ describe('Unit::Config', function () {
     let err = null
 
     beforeEach(function(){
-      err = new Config.ConfigError('some error')
+      err = new ConfigError('some error')
     })
 
     it('should create an instance of Error', function(){
-      expect( err ).to.be.a.instanceOf( Config.ConfigError )
+      expect( err ).to.be.a.instanceOf( ConfigError )
     })
 
     it('should have the right error message', function(){
@@ -28,10 +27,10 @@ describe('Unit::Config', function () {
       expect( err.status ).to.equal( 500 )
     })
 
-  })  
+  })
 
 
-  describe('Config class statics', function(){
+  describe('class statics', function(){
 
     let path_fixture = path.join(__dirname, 'fixture')
 
@@ -64,7 +63,7 @@ describe('Unit::Config', function () {
 
 
     describe('fresh class instance', function(){
- 
+
       beforeEach(function(){
         Config.clearInstances()
       })
@@ -75,7 +74,7 @@ describe('Unit::Config', function () {
       })
 
       xit('populates instance via singleton', function(){
-        fn = () => Config.singleton
+        let fn = () => Config.singleton
         expect( fn ).to.throw
         expect( Config._instances ).to.eql( {} )
       })
@@ -85,7 +84,7 @@ describe('Unit::Config', function () {
   })
 
 
-  describe('Config class instance', function(){
+  describe('class instance', function(){
 
     let cfg = null
     let cfg_path = path.join(__dirname, 'fixture')
@@ -116,22 +115,22 @@ describe('Unit::Config', function () {
     })
 
     it('should get the test key', function(){
-      expect( cfg.get('key') ).to.equal( 'value' )
+      expect( cfg.get('test_key') ).to.equal( 'value' )
     })
-    
+
     it('should fail to get an unknown key', function(){
-      fn = () => cfg.get('key-no')
+      let fn = () => cfg.get('key-no')
       expect( fn ).to.throw( ConfigKeyError, /Unknown config key/ )
     })
-    
+
     it('should fetch the test key', function(){
-      expect( cfg.fetch('key') ).to.equal( 'value' )
+      expect( cfg.fetch('test_key') ).to.equal( 'value' )
     })
-    
+
     it('should fetch an unkown ', function(){
       expect( cfg.fetch('key-no') ).to.be.undefined
     })
-    
+
     it('should have a nested key', function(){
       expect( cfg.get('nested_key.one') ).to.equal( 1 )
       expect( cfg.get('nested_key.two') ).to.equal( 2 )
@@ -146,7 +145,7 @@ describe('Unit::Config', function () {
       expect( cfg.config ).to.be.ok
       expect( cfg.config ).to.be.an('object')
     })
-   
+
     describe('environment', function(){
 
       let original_env = null
@@ -154,7 +153,7 @@ describe('Unit::Config', function () {
       before(function(){
         original_env = process.env.NODE_ENV
       })
- 
+
       after(function(){
         process.env.NODE_ENV = original_env
       })
@@ -173,19 +172,19 @@ describe('Unit::Config', function () {
         process.env.NODE_ENV = 'test'
         expect( cfg.testEnv() ).to.be.true
       })
-     
+
       it('dev should not be a test env', function(){
         process.env.NODE_ENV = 'development'
         expect( cfg.testEnv() ).to.be.false
       })
-     
+
       it('should return the env test', function(){
         expect( cfg.env() ).to.equal( process.env.NODE_ENV )
       })
 
     })
 
-    
+
     describe('Default Config files', function(){
 
       describe('with a default file', function(){
@@ -193,16 +192,16 @@ describe('Unit::Config', function () {
         let path_fixture = path.join(__dirname, 'fixture', 'withdefault')
 
         it('loads the default config', function(){
-          let cfg = new Config('withdefault', { path: path_fixture })
+          let cfg = new Config('withdefault', { config_path: path_fixture })
           expect( cfg.get('default') ).to.be.true
         })
-  
+
         it('merges the default and test config', function(){
-          let cfg = new Config('withdefault', { path: path_fixture })
+          let cfg = new Config('withdefault', { config_path: path_fixture })
           expect( cfg.get('default') ).to.be.true
           expect( cfg.get('test') ).to.be.true
         })
-  
+
       })
 
       describe('without a default file', function(){
@@ -210,31 +209,31 @@ describe('Unit::Config', function () {
         let path_fixture = path.join(__dirname, 'fixture', 'withoutdefault')
 
         it('should load', function(){
-          let cfg = new Config('withdefault', { path: path_fixture })
+          let cfg = new Config('withdefault', { config_path: path_fixture })
           expect( cfg.get('test') ).to.be.true
         })
- 
+
       })
 
       describe('without any files', function(){
 
         let path_fixture = path.join(__dirname, 'fixture', 'withnothing')
-   
+
         it('should throw', function(){
-          fn = () => new Config('withnothing', { path: path_fixture })
+          let fn = () => new Config('withnothing', { config_path: path_fixture })
           expect( fn ).to.throw( ConfigError, /No files were loaded from/ )
         })
- 
+
       })
- 
+
     })
 
 
     describe('Bad Config file', function(){
 
       it('throws', function(){
-        fn = () => new Config('throws', { path: cfg_path, label: 'bad' })
-        expect( fn ).to.throw(/Can't load config/)
+        let fn = () => new Config('throws')
+        expect( fn ).to.throw(/No files were loaded/)
       })
 
     })
@@ -249,6 +248,6 @@ describe('Unit::Config', function () {
 
   })
 
-  
+
 
 })
