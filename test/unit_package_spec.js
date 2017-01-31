@@ -11,6 +11,12 @@ describe('Unit::deployable-config', function(){
       expect( require('../') ).to.be.a.function
     })
 
+    it('should have a main export function', function(){
+      let config = require('../')('some', {path:'./test/fixture'})
+      expect( config.get('path.base') ).to.be.a.string
+    })
+
+
     it('should load the Config class from package.json entry point', function(){
       expect( Config ).to.be.ok
     })
