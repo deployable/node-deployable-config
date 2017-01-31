@@ -1,6 +1,6 @@
 {
   "name": "deployable-config",
-  "version": "0.9.5",
+  "version": "0.10.0-0",
   "description": "Config manager",
   "main": "lib/index.js",
   "scripts": {
