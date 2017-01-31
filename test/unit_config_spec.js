@@ -245,6 +245,7 @@ describe('Unit::Config', function () {
         expect( cfg.get('app.version') ).to.equal( '0.1.0' )
         expect( cfg.get('app.description') ).to.equal( 'yee' )
         expect( cfg.get('package.dependencies') ).to.be.ok
+        expect( cfg.get('path.base') ).to.be.ok
       })
     })
 
