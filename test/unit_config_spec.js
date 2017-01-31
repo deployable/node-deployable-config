@@ -252,6 +252,17 @@ describe('Unit::Config', function () {
 
       })
 
+      describe('without a json file', function(){
+
+        let path_fixture = path.join(__dirname, 'fixture', 'withjson')
+
+        it('should load', function(){
+          let cfg = new Config('withjson', { config_path: path_fixture })
+          expect( cfg.get('mine') ).to.equal( 1 )
+        })
+
+      })
+
       describe('without any files', function(){
 
         let path_fixture = path.join(__dirname, 'fixture', 'withnothing')
