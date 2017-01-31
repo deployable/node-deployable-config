@@ -4,7 +4,9 @@
   "description": "Config manager",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "set -uex; yarn run test:unit; yarn run test:int",
+    "test:unit": "mocha test/unit_*_spec.js",
+    "test:int": "mocha test/int_*_spec.js",
     "test:debug": "DEBUG='*' mocha debug",
     "test:coverage": "istanbul cover _mocha && istanbul check-coverage",
     "test:docker:6": "docker build -f docker/Dockerfile.test.6 -t deployable/node-config-test:6 . && docker run --rm deployable/node-config-test:6",
