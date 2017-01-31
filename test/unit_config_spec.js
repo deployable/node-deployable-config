@@ -228,6 +228,16 @@ describe('Unit::Config', function () {
 
     })
 
+    describe('with a default file containing a bad path', function(){
+
+      let path_fixture = path.join(__dirname, 'fixture', 'withbadpath')
+
+      it('should load', function(){
+        let fn = () => new Config('withbadpath', { config_path: path_fixture })
+        expect( fn ).to.throw(/key must not be null/)
+      })
+
+    })
 
     describe('Bad Config file', function(){
 
