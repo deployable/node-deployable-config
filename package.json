@@ -4,7 +4,7 @@
   "description": "Config manager",
   "main": "lib/index.js",
   "scripts": {
-    "test": "set -uex; yarn run test:unit; yarn run test:int",
+    "test": "yarn run test:unit",
     "test:unit": "mocha test/unit_*_spec.js",
     "test:int": "mocha test/int_*_spec.js",
     "test:debug": "DEBUG='*' mocha debug",
