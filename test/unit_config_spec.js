@@ -141,6 +141,43 @@ describe('Unit::Config', function () {
       expect( cfg.get('nested_key.three') ).to.equal( 3 )
     })
 
+    it('should delete a key `whatever`', function(){
+      expect( cfg.set('whatever', 3) ).to.be.ok
+      expect( cfg.get('whatever') ).to.equal( 3 )
+      expect( cfg.delete('whatever') ).to.be.ok
+      let fn = () => cfg.get('whatever')
+      expect( fn ).to.throw(/Unknown config key - whatever/)
+    })
+
+    it('should delete a nested key `whatever`', function(){
+      expect( cfg.set('whatever.four', 3) ).to.be.ok
+      expect( cfg.get('whatever.four') ).to.equal( 3 )
+      expect( cfg.delete('whatever.four') ).to.be.ok
+      let fn = () => cfg.get('whatever.four')
+      expect( fn ).to.throw(/Unknown config key - whatever.four/)
+    })
+
+
+    it('should set a local path', function(){
+      expect( cfg.setLocalPath('pathtest1', 'one') ).to.be.ok
+      expect( cfg.get('path.pathtest1') ).to.match(/fixture\/one$/)
+    })
+
+    it('should set a local path', function(){
+      expect( cfg.setLocalPath('pathtest2', 'one', 'two') ).to.be.ok
+      expect( cfg.get('path.pathtest2') ).to.match(/fixture\/one\/two$/)
+    })
+
+    it('should set a local path', function(){
+      let fn = () => cfg.setLocalPath('')
+      expect( fn ).to.throw(/Invalid key length/)
+    })
+
+    it('should set a local path', function(){
+      let fn = () => cfg.setLocalPath()
+      expect( fn ).to.throw(/Invalid key/)
+    })
+
     it('should get the config blob', function(){
       expect( cfg.config ).to.be.ok
       expect( cfg.config ).to.be.an('object')
@@ -241,9 +278,28 @@ describe('Unit::Config', function () {
 
     describe('Bad Config file', function(){
 
-      it('throws', function(){
+      it('throws when no files are available', function(){
         let fn = () => new Config('throws')
         expect( fn ).to.throw(/No files were loaded/)
+      })
+
+      it('throws when path is a string', function(){
+        let path_fixture = path.join(__dirname, 'fixture', 'withstringpath')
+        let fn = () => new Config('badstringpath', { config_path: path_fixture })
+        expect( fn ).to.throw(/The `path` key must be a plain object/)
+      })
+
+      it('throws when yaml is badly formatted', function(){
+        let path_fixture = path.join(__dirname, 'fixture', 'witherror')
+        let fn = () => new Config('badformat', { config_path: path_fixture })
+        expect( fn ).to.throw(/Can't load config for/)
+      })
+
+      it('throws when loading a file that\'s missing', function(){
+        let path_fixture = path.join(__dirname, 'fixture', 'withoutdefault')
+        let cfg = new Config('nothere', { config_path: path_fixture })
+        let fn = () => cfg.loadFile('not/here', {fail: true})
+        expect( fn ).to.throw(/Load failed. File doesn't exist:/)
       })
 
     })
