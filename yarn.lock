@@ -98,9 +98,9 @@ debug@2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@^2:
-  version "2.6.0"
-  resolved "https://registry.npmjs.org/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
+debug@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.npmjs.org/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
@@ -118,9 +118,9 @@ deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.npmjs.org/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
 
-deployable-errors@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/deployable-errors/-/deployable-errors-0.6.0.tgz#059d5680db45f413f9239e3c07c287369df6d987"
+deployable-errors@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.npmjs.org/deployable-errors/-/deployable-errors-0.9.0.tgz#23d6cee8037ef385328690f2597f513de22ea9f1"
 
 diff@1.4.0:
   version "1.4.0"
@@ -144,6 +144,10 @@ escodegen@1.8.x:
 esprima@2.7.x, esprima@^2.6.0, esprima@^2.7.1:
   version "2.7.3"
   resolved "https://registry.npmjs.org/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
+
+esprima@^3.1.1:
+  version "3.1.3"
+  resolved "https://registry.npmjs.org/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
 
 estraverse@^1.9.1:
   version "1.9.3"
@@ -248,12 +252,19 @@ istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-js-yaml@3.x, js-yaml@^3.7.0:
+js-yaml@3.x:
   version "3.7.0"
   resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.7.0.tgz#5c967ddd837a9bfdca5f2de84253abe8a1c03b80"
   dependencies:
     argparse "^1.0.7"
     esprima "^2.6.0"
+
+js-yaml@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.8.1.tgz#782ba50200be7b9e5a8537001b7804db3ad02628"
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^3.1.1"
 
 json3@3.3.2:
   version "3.3.2"
