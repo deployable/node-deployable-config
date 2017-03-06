@@ -1,5 +1,5 @@
 {
-  "name": "deployable-config",
+  "name": "@deployable/config",
   "version": "0.10.0-2",
   "description": "Config manager",
   "main": "lib/index.js",
@@ -11,8 +11,8 @@
     "test:coverage": "istanbul cover _mocha && istanbul check-coverage",
     "test:docker:6": "docker build -f docker/Dockerfile.test.6 -t deployable/node-config-test:6 . && docker run --rm deployable/node-config-test:6",
     "test:docker:7": "docker build -f docker/Dockerfile.test.7 -t deployable/node-config-test:7 . && docker run --rm deployable/node-config-test:7",
-    "release:patch": "set -uex; rm -rf node_modules; yarn install; yarn run test:coverage; npm version patch; git push; git push --tags; npm publish",
-    "release:test": "set -uex; yarn test; npm version prerelease; git push; npm publish --tag testing; git push --tags"
+    "release:patch": "set -uex; rm -rf node_modules; yarn install; yarn run test:coverage; npm version patch; git push; npm publish --access public; git push --tags",
+    "release:test": "set -uex; yarn test; npm version prerelease; git push; npm publish --tag testing --access public; git push --tags"
   },
   "repository": {
     "type": "git",
