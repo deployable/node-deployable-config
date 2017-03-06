@@ -1,5 +1,5 @@
 /* global expect */
-const debug = require('debug')('dply:test:unit:config')
+const debug = require('debug')('dply:test:unit:config:config')
 const path = require('path')
 const { Config, ConfigError, ConfigKeyError } = require('../lib/config')
 
@@ -7,7 +7,7 @@ const { Config, ConfigError, ConfigKeyError } = require('../lib/config')
 describe('Unit::Config', function () {
 
 
-  describe('Error', function () {
+  describe('Error:', function () {
 
     let err = null
 
@@ -30,7 +30,7 @@ describe('Unit::Config', function () {
   })
 
 
-  describe('class statics', function(){
+  describe('class statics:', function(){
 
     let path_fixture = path.join(__dirname, 'fixture')
 
@@ -62,18 +62,18 @@ describe('Unit::Config', function () {
     })
 
 
-    describe('fresh class instance', function(){
+    describe('A fresh class instance', function(){
 
-      beforeEach(function(){
+      beforeEach('clear instances', function(){
         Config.clearInstances()
       })
 
-      it('populates instance via get', function(){
+      it('should populates an instance via get', function(){
         Config.getInstance()
         expect( Config._instances ).to.eql( {} )
       })
 
-      xit('populates instance via singleton', function(){
+      xit('should populate an instance via singleton', function(){
         let fn = () => Config.singleton
         expect( fn ).to.throw
         expect( Config._instances ).to.eql( {} )
@@ -84,7 +84,7 @@ describe('Unit::Config', function () {
   })
 
 
-  describe('class instance', function(){
+  describe('A class instance', function(){
 
     let cfg = null
     let cfg_path = path.join(__dirname, 'fixture')
@@ -93,16 +93,16 @@ describe('Unit::Config', function () {
       cfg = new Config('fixture', {path: cfg_path})
     })
 
-    it('should create an instance', function(){
+    it('should create an instance of Config', function(){
       expect( cfg ).to.be.a.instanceOf( Config )
     })
 
-    it('should have the test label', function(){
+    it('should have a label of test', function(){
       expect( cfg.label ).to.equal( 'test' )
     })
 
     it('should have a default file of test.yml', function(){
-      expect( cfg.file ).to.equal( 'test.yml' )
+      expect( cfg.file ).to.be.undefined
     })
 
     it('should have a default path of ../config', function(){
@@ -114,7 +114,7 @@ describe('Unit::Config', function () {
       expect( cfg.path ).to.equal( path.resolve(__dirname, '..', 'config') )
     })
 
-    it('should get the test key', function(){
+    it('should get the test_key from fixture file', function(){
       expect( cfg.get('test_key') ).to.equal( 'value' )
     })
 
@@ -123,20 +123,20 @@ describe('Unit::Config', function () {
       expect( fn ).to.throw( ConfigKeyError, /Unknown config key/ )
     })
 
-    it('should fetch the test key', function(){
+    it('should fetch the test_key from fixture file', function(){
       expect( cfg.fetch('test_key') ).to.equal( 'value' )
     })
 
-    it('should fetch an unkown ', function(){
+    it('should fetch an unkown key', function(){
       expect( cfg.fetch('key-no') ).to.be.undefined
     })
 
-    it('should have a nested key', function(){
+    it('should have be able get to nested keys from file', function(){
       expect( cfg.get('nested_key.one') ).to.equal( 1 )
       expect( cfg.get('nested_key.two') ).to.equal( 2 )
     })
 
-    it('should set a key `nested_key.three`', function(){
+    it('should set a nested key `nested_key.three`', function(){
       expect( cfg.set('nested_key.three', 3) ).to.be.ok
       expect( cfg.get('nested_key.three') ).to.equal( 3 )
     })
@@ -157,31 +157,31 @@ describe('Unit::Config', function () {
       expect( fn ).to.throw(/Unknown config key - whatever.four/)
     })
 
-
-    it('should set a local path', function(){
+    it('should set a local path value', function(){
       expect( cfg.setLocalPath('pathtest1', 'one') ).to.be.ok
       expect( cfg.get('path.pathtest1') ).to.match(/fixture\/one$/)
     })
 
-    it('should set a local path', function(){
+    it('should set a local path with multiple directories', function(){
       expect( cfg.setLocalPath('pathtest2', 'one', 'two') ).to.be.ok
       expect( cfg.get('path.pathtest2') ).to.match(/fixture\/one\/two$/)
     })
 
-    it('should set a local path', function(){
+    it('should not set an emtpy local path', function(){
       let fn = () => cfg.setLocalPath('')
       expect( fn ).to.throw(/Invalid key length/)
     })
 
-    it('should set a local path', function(){
+    it('should not set an undefined local path', function(){
       let fn = () => cfg.setLocalPath()
       expect( fn ).to.throw(/Invalid key/)
     })
 
-    it('should get the config blob', function(){
+    it('should get the entire config blob', function(){
       expect( cfg.config ).to.be.ok
       expect( cfg.config ).to.be.an('object')
     })
+
 
     describe('environment', function(){
 
@@ -222,7 +222,7 @@ describe('Unit::Config', function () {
     })
 
 
-    describe('Default Config files', function(){
+    describe('default config', function(){
 
       describe('with a default file', function(){
 
@@ -249,18 +249,38 @@ describe('Unit::Config', function () {
           let cfg = new Config('withdefault', { config_path: path_fixture })
           expect( cfg.get('test') ).to.be.true
         })
-
       })
 
-      describe('without a json file', function(){
+      describe('with a json default file', function(){
 
-        let path_fixture = path.join(__dirname, 'fixture', 'withjson')
+        let path_fixture = path.join(__dirname, 'fixture', 'withjsondefault')
 
         it('should load', function(){
-          let cfg = new Config('withjson', { config_path: path_fixture })
+          let cfg = new Config('withjsondefault', { config_path: path_fixture })
           expect( cfg.get('mine') ).to.equal( 1 )
         })
+      })
 
+      describe('with an {environment}.json file', function(){
+
+        let path_fixture = path.join(__dirname, 'fixture', 'withjsontest')
+
+        it('should load and overide', function(){
+          let cfg = new Config('withjsontest', { config_path: path_fixture })
+          expect( cfg.get('minetest') ).to.equal( 1 )
+          expect( cfg.get('minedefault') ).to.equal( 1 )
+        })
+      })
+
+      describe('without a default.json file', function(){
+
+        let path_fixture = path.join(__dirname, 'fixture', 'withjsonnodefault')
+
+        it('should load the environment file', function(){
+          let cfg = new Config('withjsonnodefault', { config_path: path_fixture })
+          expect( cfg.get('minetest') ).to.equal( 1 )
+          expect( ()=>cfg.get('minedefault') ).to.throw(/Unknown config key/)
+        })
       })
 
       describe('without any files', function(){
@@ -271,7 +291,6 @@ describe('Unit::Config', function () {
           let fn = () => new Config('withnothing', { config_path: path_fixture })
           expect( fn ).to.throw( ConfigError, /No files were loaded from/ )
         })
-
       })
 
     })
