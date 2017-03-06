@@ -322,7 +322,7 @@ describe('Unit::Config', function () {
       it('throws when yaml is badly formatted', function(){
         let path_fixture = path.join(__dirname, 'fixture', 'witherror')
         let fn = () => new Config('badformat', { config_path: path_fixture })
-        expect( fn ).to.throw(/Can't load config for/)
+        expect( fn ).to.throw(/Can't load config/)
       })
 
       it('throws when loading a file that\'s missing', function(){
